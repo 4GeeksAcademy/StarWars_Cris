@@ -9,3 +9,41 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+body{
+    background-color: rgb(62, 62, 62);
+}
+.custom-navbar, .custom-footer {
+    background-color: black !important;
+    
+}
+
+.custom-footer h5{
+    color: black !important;
+    -webkit-text-stroke: 1px gold;
+}
+
+.custom-link {
+    color: black !important;
+    -webkit-text-stroke: 1px yellow;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.custom-link:hover {
+    color: black !important;
+    -webkit-text-stroke: 1px gold;
+}
+
+.custom-dropdown {
+    background-color: rgb(46, 46, 46)
+}
+
+.custom-dropdown .dropdown-item {
+    color: black;
+    -webkit-text-stroke: 1px yellow;
+}
+
+.custom-dropdown .dropdown-item:hover {
+    background-color: #111;
+}
