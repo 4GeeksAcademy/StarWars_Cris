@@ -1,14 +1,29 @@
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "./AppContexts";
 import { Link } from "react-router";
-import Characters from "./Characters";
 
 const MainPage = () => {
 
     return (
 
         <>
-            <Characters />
+            <div className="d-flex flex-column my-3">
+                <Link to={"/characters"}>
+                    <button>
+                        Characters
+                    </button>
+                </Link>
+                <Link to={"/films"}>
+                    <button>
+                        Films
+                    </button>
+                </Link>
+                <Link to={"/starships"}>
+                    <button>
+                        StarShips
+                    </button>
+                </Link>
+            </div>
         </>
     )
 }

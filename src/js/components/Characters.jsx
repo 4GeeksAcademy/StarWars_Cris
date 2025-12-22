@@ -10,21 +10,11 @@ const Characters = () =>{
     const {
         personaje,
         setPersonaje,
-        nave,
-        setNave,
-        pelicula,
-        setPelicula,
-        planetas,
-        setPlanetas,
-        especies,
-        setEspecies,
-        vehiculos,
-        setVehiculos
     } = useContext(AppContext)
 
 
     const getCharacters = () => {
-        fetch(`${URL_BASIC_API}people`)
+        fetch(`${URL_BASIC_API}people/`)
         .then(res => {
             if(!res.ok){
                 throw new Error('No se pudo conseguir los personajes')
@@ -42,22 +32,20 @@ const Characters = () =>{
         <>
         <div className="container">
             <div className="row">
-                <div className="col">
                     <h1>Personajes</h1>
                     {personaje && personaje.map(char => (
-                        <div key={char.uid} className="col-md-3">
-                            <div className="card mb-3">
+                        <div key={char.uid} className="col-md-6 col-xl-4 col-sm-12 my-3">
+                            <div className="card-title mb-3">
                                 <img src={"https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/" + char.uid + ".jpg"} className="card-img-top" alt={char.name}></img>
                             </div>
                             <div className="card-body">
-                                <h5 className="card-title">{char.name}</h5>
+                                <h1 className="card-title">{char.name}</h1>
                                 <a href="#" className="btn btn-primary">Ver Más</a>
                             </div>
                         </div>
                     ))}
                     {!personaje && 
                     <h1>OOppssss No hay persoanjes ahora mismo registrados</h1>}
-                </div>
             </div>
         </div>
         </>

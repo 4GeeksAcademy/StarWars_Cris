@@ -6,11 +6,11 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     const [personaje, setPersonaje] = useState([]);
-    const [nave, setNave] = useState(null);
-    const [pelicula, setPelicula] = useState(null);
-    const [planetas, setPlanetas] = useState(null);
-    const [especies, setEspecies] = useState(null);
-    const [vehiculos, setVehiculos] = useState(null);
+    const [nave, setNave] = useState([]);
+    const [pelicula, setPelicula] = useState([]);
+    const [planetas, setPlanetas] = useState([]);
+    const [especies, setEspecies] = useState([]);
+    const [vehiculos, setVehiculos] = useState([]);
 
     return (
         <AppContext.Provider
