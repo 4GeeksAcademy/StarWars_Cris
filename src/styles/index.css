@@ -47,3 +47,22 @@ body{
 .custom-dropdown .dropdown-item:hover {
     background-color: #111;
 }
+
+.btn-group-category{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+
+.btn-category{
+    border: solid yellow 1px;
+    width: 500px;
+    height: 60px;
+    margin: 10px 0 0 5px;
+    text-align: start;
+    font-size: 30px;
+    background-color: #111;
+    color: yellow;
+    border-radius: 10px;
+}

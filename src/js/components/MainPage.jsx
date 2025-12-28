@@ -7,19 +7,19 @@ const MainPage = () => {
     return (
 
         <>
-            <div className="d-flex flex-column my-3">
+            <div className="btn-group-category">
                 <Link to={"/characters"}>
-                    <button>
+                    <button className="btn-category">
                         Characters
                     </button>
                 </Link>
                 <Link to={"/films"}>
-                    <button>
+                    <button className="btn-category">
                         Films
                     </button>
                 </Link>
                 <Link to={"/starships"}>
-                    <button>
+                    <button className="btn-category">
                         StarShips
                     </button>
                 </Link>

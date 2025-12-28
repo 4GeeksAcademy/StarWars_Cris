@@ -34,7 +34,7 @@ const Characters = () =>{
             <div className="row">
                     <h1>Personajes</h1>
                     {personaje && personaje.map(char => (
-                        <div key={char.uid} className="col-md-6 col-xl-4 col-sm-12 my-3">
+                        <div key={char.uid} className="card col-md-6 col-xl-4 col-sm-12 my-3">
                             <div className="card-title mb-3">
                                 <img src={"https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/" + char.uid + ".jpg"} className="card-img-top" alt={char.name}></img>
                             </div>
