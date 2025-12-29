@@ -25,7 +25,9 @@ const Characters = () =>{
         .catch(err => console.log(err))
     }
     useEffect(()=>{
-        getCharacters();
+        if(personaje.length === 0){
+            getCharacters();
+        }
     }, [])
 
     return(

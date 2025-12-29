@@ -24,6 +24,8 @@ const StarShips = () => {
             setNaveBasic(data.results);
             getStarShipsDetails(data.results)
 
+            console.log(data.results)
+
         } catch (error) {
             console.log(error);
         }
@@ -45,6 +47,7 @@ const StarShips = () => {
 
             const details = await Promise.all(promises);
             setNave(details);
+            
 
         } catch (error) {
             console.log(error)
@@ -52,7 +55,9 @@ const StarShips = () => {
     }
 
     useEffect(() => {
-        getStarShipsBasics();
+        if(nave === 0){
+            getStarShipsBasics();
+        }
     }, [])
 
     return (
