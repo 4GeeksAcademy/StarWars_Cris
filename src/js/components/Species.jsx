@@ -1,41 +1,40 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { AppContext } from "./AppContexts";
-
 import imagenNoDisponible from "../../img/imagen.png"
 
-const StarShips = () => {
+const Species = () => {
 
-    const URL_BASIC_API = 'https://www.swapi.tech/api/starships'
+    const URL_BASIC_SPECIES = "https://www.swapi.tech/api/species"
 
     const {
-        nave,
-        setNave
+        especies,
+        setEspecies
     } = useContext(AppContext)
 
-    const [cargando, setCargando] = useState(true)
     const [error, setError] = useState(false)
+    const [cargando, setCargando] = useState(false)
 
-    const getStarShipsBasics = async () => {
+    const getSpecieBasics = async () => {
         try {
             setCargando(true)
-            const res = await fetch(`${URL_BASIC_API}`);
-            if (!res.ok) throw new Error("No se pudieron conseguir las naves")
+            const res = await fetch(`${URL_BASIC_SPECIES}`)
+            if (!res.ok) throw new Error("No se han podido conseguir los datos basicos de las especies")
 
             const data = await res.json();
-            getStarShipsDetails(data.results)
+            getSpecieDetails(data.results)
 
         } catch (error) {
-            console.log(error);
+            console.error(error)
             setError(true)
         }
-
     }
 
-    const getStarShipsDetails = async (ships) => {
+    const getSpecieDetails = async (species) => {
         try {
-            const promises = ships.map(ship =>
-                fetch(ship.url)
+            const promises = species.map(specie =>
+                fetch(specie.url)
                     .then(res => {
                         if (!res.ok) {
                             throw new Error("No se pudieron conseguir los detalles")
@@ -45,53 +44,53 @@ const StarShips = () => {
                     .then(data => data.result)
             )
 
-            const details = await Promise.all(promises);
-            setNave(details);
+            const details = await Promise.all(promises)
+            setEspecies(details)
             setCargando(false)
 
         } catch (error) {
-            console.log(error)
+            console.error(error)
             setError(true)
         }
+
     }
 
-    useEffect(() => {
-        if(nave.length === 0){
-            getStarShipsBasics();
+    useEffect(()=>{
+        if(especies.length === 0){
+            getSpecieBasics();
         }
-    }, [])
+    },[])
+
+
 
     return (
         <>
-            <h1>Naves Espaciales</h1>
-
             <div className="container">
                 <div className="row">
-                    {nave && nave.map(star => (
-                        <div key={star.uid} className="col-xl-4 col-md-6 col-sm-12">
+                    {especies && especies.map(especie => (
+                        <div key={especie.uid} className="col-xl-4 col-md-6 col-sm-12">
                             <div className="card mb-3">
                                 <img
-                                    src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/starships/${star.uid}.jpg`}
+                                    src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/species/${especie.uid}.jpg`}
                                     className="card-img-top"
-                                    alt={star.properties.name}
+                                    alt={especie.properties.name}
                                     onError={(e) => {
                                         e.target.src = imagenNoDisponible;
                                     }}
                                 />
                                 <div className="card-body">
-                                    <h5 className="card-title">{star.properties.name}</h5>
+                                    <h5 className="card-title">{especie.properties.name}</h5>
                                     <a href="#" className="btn btn-primary">Ver Más</a>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    {cargando && <h1>Cargando...</h1>}
-                    {error && <h1>Oh no! ha ocurrido un error</h1>}
+                    {cargando && !error && <h1>Cargando...</h1>}
+                    {error && <h1>Se ha producido un error</h1>}
                 </div>
             </div>
-
         </>
     )
 }
 
-export default StarShips;
+export default Species;

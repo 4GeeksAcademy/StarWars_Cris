@@ -29,19 +29,13 @@ body{
     font-size: 25px;
 }
 
-
-.custom-link:hover {
-    color: black !important;
-    -webkit-text-stroke: 1px gold;
-}
-
-.custom-dropdown {
-    background-color: rgb(46, 46, 46)
-}
-
-.custom-dropdown .dropdown-item {
+.btn-navbar{
+    background-color: transparent;
     color: black;
     -webkit-text-stroke: 1px yellow;
+    border: none;
+    margin-top: 10px;
+    font-size: 25px;
 }
 
 .custom-dropdown .dropdown-item:hover {

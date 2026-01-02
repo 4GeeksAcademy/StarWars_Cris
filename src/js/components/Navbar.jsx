@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const Navbar = () => {
     return (
@@ -21,24 +22,25 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link custom-link active" href="#">Personajes</a>
+                            <Link to={"/planets"}>
+                            <button className="btn-navbar">
+                                Planetas
+                            </button>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link custom-link" href="#">NavesLink</a>
+                            <Link to={"/species"}>
+                            <button className="btn-navbar">
+                                Especies
+                            </button>
+                            </Link>
                         </li>
-                        <li className="nav-item dropdown">
-                            <a
-                                className="nav-link dropdown-toggle custom-link"
-                                href="#"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                            >
-                                Peliculas
-                            </a>
-                            <ul className="dropdown-menu custom-dropdown">
-                                <li><a className="dropdown-item" href="#">Pelicula 1</a></li>
-                                <li><a className="dropdown-item" href="#">Pelicula 2</a></li>
-                            </ul>
+                        <li className="nav-item">
+                            <Link to={"/vehicles"}>
+                            <button className="btn-navbar">
+                                Vehículos
+                            </button>
+                            </Link>
                         </li>
                     </ul>
                 </div>

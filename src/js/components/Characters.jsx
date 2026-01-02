@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "./AppContexts";
 
@@ -12,6 +12,9 @@ const Characters = () =>{
         setPersonaje,
     } = useContext(AppContext)
 
+    const[error, setError] = useState(false)
+    
+
 
     const getCharacters = () => {
         fetch(`${URL_BASIC_API}people/`)
@@ -22,7 +25,7 @@ const Characters = () =>{
             return res.json();
         })
         .then(data => setPersonaje(data.results))
-        .catch(err => console.log(err))
+        .catch(setError(true))
     }
     useEffect(()=>{
         if(personaje.length === 0){
@@ -46,8 +49,7 @@ const Characters = () =>{
                             </div>
                         </div>
                     ))}
-                    {!personaje && 
-                    <h1>OOppssss No hay persoanjes ahora mismo registrados</h1>}
+                    {error && <h1>Ha habido un error</h1>}
             </div>
         </div>
         </>
