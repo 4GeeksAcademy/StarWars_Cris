@@ -2,6 +2,7 @@ import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "./AppContexts";
+import imagenNoDisponible from "../../img/imagen.png"
 
 const Characters = () => {
 
@@ -55,7 +56,7 @@ const Characters = () => {
                         homeworldName = "Desconocido";
                     }
                 }
-                
+
                 return {
                     ...character,
                     homeworldName
@@ -83,17 +84,23 @@ const Characters = () => {
 
     return (
         <>
+            <h1 className="sw-title">Personajes</h1>
+
+            <Link to={"/"}>
+                <h2 className="sw-title">Volver al Inicio</h2>
+            </Link>
             <div className="container">
                 <div className="row">
-                    <h1 className="sw-title">Personajes</h1>
-
-                    {personaje && personaje.map(char => (
+                    {personaje && !cargando && personaje.map(char => (
                         <div key={char.uid} className="sw-card-container">
                             <div className="sw-card">
                                 <div className="elemento-imagen">
                                     <img
                                         src={`https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/${char.uid}.jpg`}
                                         alt={char.properties.name}
+                                        onError={(e) => {
+                                            e.target.src = imagenNoDisponible;
+                                        }}
                                     />
                                 </div>
 
@@ -112,24 +119,29 @@ const Characters = () => {
                         </div>
                     ))}
 
-                    <div className="d-flex justify-content-between mt-4">
-                        <button
-                            className="btn btn-secondary"
-                            disabled={!prevUrl || cargando}
-                            onClick={() => getCharacters(prevUrl)}
-                        >
-                            Anterior
-                        </button>
+                    <div className="sw-pagination">
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-prev"
+                                disabled={!prevUrl || cargando}
+                                onClick={() => getVehiclesBasics(prevUrl)}
+                            >
+                                ⬅️ Anterior
+                            </button>
+                        }
 
-                        <button
-                            className="btn btn-primary"
-                            disabled={!nextUrl || cargando}
-                            onClick={() => getCharacters(nextUrl)}
-                        >
-                            Siguiente
-                        </button>
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-next"
+                                disabled={!nextUrl || cargando}
+                                onClick={() => getVehiclesBasics(nextUrl)}
+                            >
+                                Siguiente ➡️
+                            </button>
+                        }
                     </div>
-                    {error && <h1>Ha habido un error</h1>}
+                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
+                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
                 </div>
             </div>
         </>

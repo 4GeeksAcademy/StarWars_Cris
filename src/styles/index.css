@@ -13,55 +13,35 @@
 body{
     background-color: rgb(62, 62, 62);
 }
-.custom-navbar, .custom-footer {
-    background-color: black !important;
-    
+.custom-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 3px solid rgba(255, 242, 0, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.custom-footer h5{
-    color: black !important;
-    -webkit-text-stroke: 1px gold;
+.navbar img {
+    filter: drop-shadow(0 0 6px rgba(255, 242, 0, 0.579));
+    transition: all 0.2s;
+}
+.navbar img:hover {
+    scale: 1.2;
 }
 
-.custom-link {
-    color: black !important;
-    -webkit-text-stroke: 1px yellow;
-    font-weight: bold;
-    font-size: 25px;
+.navbar-toggler {
+    border: 1px solid rgba(255, 242, 0, 0.4);
 }
 
-.btn-navbar{
-    background-color: transparent;
-    color: black;
-    -webkit-text-stroke: 1px yellow;
-    border: none;
-    margin-top: 10px;
-    font-size: 25px;
+.navbar-toggler-icon {
+    filter: invert(1);
 }
-
-.custom-dropdown .dropdown-item:hover {
-    background-color: #111;
+.navbar h1{
+    color: rgba(255, 242, 0, 0.9);
 }
-
-.btn-group-category{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100px;
-}
-
-.btn-category{
-    border: solid yellow 1px;
-    width: 500px;
-    height: 60px;
-    margin: 10px 0 0 5px;
-    text-align: start;
-    font-size: 30px;
-    background-color: #111;
-    color: yellow;
-    border-radius: 10px;
-}
-
 
 /*Editar las cards de los personajes:*/
 
@@ -89,10 +69,10 @@ body{
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(10px);
 
-    border: 2px solid rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(255, 242, 0, 0.6);
     box-shadow:
-        0 0 15px rgba(255, 255, 255, 0.4),
-        inset 0 0 20px rgba(255, 255, 255, 0.1);
+        0 0 15px rgba(255, 242, 0, 0.4),
+        inset 0 0 20px rgba(255, 242, 0, 0.1);
 
     transition: transform 0.3s ease;
 }
@@ -175,6 +155,7 @@ body{
     inset: 0;
     z-index: -1;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .video-background video {
@@ -184,4 +165,104 @@ body{
     filter: brightness(0.6);
 }
 
+/*Editar botones de MainPage*/
+.btn-group-category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    min-height: 80vh;
+    width: 100%;
+    flex-wrap: wrap;
+}
 
+
+.btn-category {
+    position: relative;
+
+    padding: 26px 48px;
+    min-height: 80px;
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 242, 0, 0.6);
+    cursor: pointer;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    box-shadow:
+        0 0 14px rgba(255, 242, 0, 0.4),
+        inset 0 0 20px rgba(255, 242, 0, 0.1);
+}
+
+
+.btn-category:hover {
+    transform: translateY(-6px) scale(1.07);
+    animation: neonButtonGlow 2.5s infinite alternate;
+}
+
+@keyframes neonButtonGlow {
+    0%   { box-shadow: 0 0 12px #ff0000; }
+    25%  { box-shadow: 0 0 12px #00bfff; }
+    50%  { box-shadow: 0 0 12px #00ff7f; }
+    75%  { box-shadow: 0 0 12px #9b30ff; }
+    100% { box-shadow: 0 0 12px #ff1493; }
+}
+
+/*Editar botones de paginacion*/
+.sw-pagination{
+    display:flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px;
+}
+
+.sw-btn{
+    position: relative;
+    padding: 18px 42px;
+    min-height: 64px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgb(255, 242, 0);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    border: 2px solid rgba(255, 242, 0, 0.7);
+    cursor: pointer;
+     transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        opacity 0.3s ease;
+
+    box-shadow:
+        0 0 12px rgba(255, 242, 0, 0.35),
+        inset 0 0 18px rgba(255, 242, 0, 0.12);
+}
+
+.sw-btn:hover:not(:disabled) {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+        0 0 22px rgba(255, 242, 0, 0.8),
+        inset 0 0 22px rgba(255, 242, 0, 0.2);
+}
+
+.sw-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.sw-btn-prev {
+    border-style: dashed;
+}
+
+.sw-btn-next {
+    border-style: solid;
+}

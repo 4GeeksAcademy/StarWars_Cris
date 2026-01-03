@@ -8,22 +8,40 @@ const MainPage = () => {
 
         <>
             <div className="btn-group-category">
-                <Link to={"/characters"}>
+                <Link to="/characters">
                     <button className="btn-category">
-                        Characters
+                        🧑‍🚀 Characters
                     </button>
                 </Link>
-                <Link to={"/films"}>
+
+                <Link to="/films">
                     <button className="btn-category">
-                        Films
+                        🎬 Films
                     </button>
                 </Link>
-                <Link to={"/starships"}>
+
+                <Link to="/starships">
                     <button className="btn-category">
-                        StarShips
+                        🚀 Starships
+                    </button>
+                </Link>
+                <Link to="/planets">
+                    <button className="btn-category">
+                        🪐 Planetas
+                    </button>
+                </Link>
+                <Link to="/species">
+                    <button className="btn-category">
+                        👽 Especies
+                    </button>
+                </Link>
+                <Link to="/vehicles">
+                    <button className="btn-category">
+                        🚅 Vehículos
                     </button>
                 </Link>
             </div>
+
         </>
     )
 }

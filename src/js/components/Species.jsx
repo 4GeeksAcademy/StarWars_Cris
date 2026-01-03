@@ -16,8 +16,8 @@ const Species = () => {
     const [error, setError] = useState(false)
     const [cargando, setCargando] = useState(false)
 
-    const[nextUrl, setNextUrl] = useState()
-    const[prevUrl, setPrevUrl] = useState()
+    const [nextUrl, setNextUrl] = useState()
+    const [prevUrl, setPrevUrl] = useState()
 
     const getSpecieBasics = async (url = URL_BASIC_SPECIES) => {
         try {
@@ -38,16 +38,28 @@ const Species = () => {
 
     const getSpecieDetails = async (species) => {
         try {
-            const promises = species.map(specie =>
-                fetch(specie.url)
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error("No se pudieron conseguir los detalles")
-                        }
-                        return res.json();
-                    })
-                    .then(data => data.result)
-            )
+            const promises = species.map(async (specie) => {
+
+                const res = await fetch(specie.url);
+                const data = await res.json();
+                const especie = data.result
+
+                let homeworldName = "Desconocido"
+                if (especie.properties.homeworld) {
+                    try {
+                        const planetRes = await fetch(especie.properties.homeworld);
+                        const planetData = await planetRes.json();
+                        homeworldName = planetData.result.properties.name;
+                    } catch {
+                        homeworldName = "Desconocido"
+                    }
+                }
+
+                return {
+                    ...especie,
+                    homeworldName
+                };
+            });
 
             const details = await Promise.all(promises)
             setEspecies(details)
@@ -60,55 +72,71 @@ const Species = () => {
 
     }
 
-    useEffect(()=>{
-        if(especies.length === 0){
+    useEffect(() => {
+        if (especies.length === 0) {
             getSpecieBasics();
         }
-    },[])
+    }, [])
 
 
 
     return (
         <>
+            <h1 className="sw-title">Esepcies</h1>
+            <Link to={"/"}>
+                <h2 className="sw-title">Volver al Inicio</h2>
+            </Link>
+
             <div className="container">
                 <div className="row">
-                    {especies && especies.map(especie => (
-                        <div key={especie.uid} className="col-xl-4 col-md-6 col-sm-12">
-                            <div className="card mb-3">
-                                <img
-                                    src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/species/${especie.uid}.jpg`}
-                                    className="card-img-top"
-                                    alt={especie.properties.name}
-                                    onError={(e) => {
-                                        e.target.src = imagenNoDisponible;
-                                    }}
-                                />
-                                <div className="card-body">
-                                    <h5 className="card-title">{especie.properties.name}</h5>
-                                    <a href="#" className="btn btn-primary">Ver Más</a>
+                    {especies && !cargando && especies.map(especie => (
+                        <div key={especie.uid} className="sw-card-container">
+                            <div className="sw-card">
+                                <div className="elemento-imagen">
+                                    <img
+                                        src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/species/${especie.uid}.jpg`}
+                                        className="card-img-top"
+                                        alt={especie.properties.name}
+                                        onError={(e) => {
+                                            e.target.src = imagenNoDisponible;
+                                        }}
+                                    />
+                                </div>
+                                <div className="elemento-detalles">
+                                    <h5 className="character-name">{especie.properties.name}</h5>
+
+                                    <p><span className="label">Tipo de Animal:</span> {especie.properties.classification}</p>
+                                    <p><span className="label">Designacion:</span> {especie.properties.designation}</p>
+                                    <p><span className="label">Color de ojos:</span> {especie.properties.eye_colors}</p>
+                                    <p><span className="label">Lenguaje:</span> {especie.properties.language}</p>
+                                    <p><span className="label">Planeta de origen:</span> {especie.homeworldName}</p>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <div className="d-flex justify-content-between mt-4">
-                        <button
-                            className="btn btn-secondary"
-                            disabled={!prevUrl || cargando}
-                            onClick={() => getSpecieBasics(prevUrl)}
-                        >
-                            Anterior
-                        </button>
+                    <div className="sw-pagination">
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-prev"
+                                disabled={!prevUrl || cargando}
+                                onClick={() => getVehiclesBasics(prevUrl)}
+                            >
+                                ⬅️ Anterior
+                            </button>
+                        }
 
-                        <button
-                            className="btn btn-primary"
-                            disabled={!nextUrl || cargando}
-                            onClick={() => getSpecieBasics(nextUrl)}
-                        >
-                            Siguiente
-                        </button>
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-next"
+                                disabled={!nextUrl || cargando}
+                                onClick={() => getVehiclesBasics(nextUrl)}
+                            >
+                                Siguiente ➡️
+                            </button>
+                        }
                     </div>
-                    {cargando && !error && <h1>Cargando...</h1>}
-                    {error && <h1>Se ha producido un error</h1>}
+                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
+                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
                 </div>
             </div>
         </>

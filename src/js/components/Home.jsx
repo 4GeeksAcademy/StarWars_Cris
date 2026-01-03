@@ -27,7 +27,6 @@ const Home = () => {
 				<Route path={"/vehicles"} element={<Vehicles />} />
 			</Routes>
 				<VideoBackground />
-			
 		</BrowserRouter>
 		</>
 	);

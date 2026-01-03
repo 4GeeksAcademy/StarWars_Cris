@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { AppContext } from "./AppContexts";
 
 import imagenNoDisponible from "../../img/imagen.png"
+import { Link } from "react-router";
 
 const StarShips = () => {
 
@@ -77,10 +78,13 @@ const StarShips = () => {
     return (
         <>
             <h1 className="sw-title">Naves</h1>
+            <Link to={"/"}>
+                <h2 className="sw-title">Volver al Inicio</h2>
+            </Link>
 
             <div className="container">
                 <div className="row">
-                    {nave && nave.map(star => (
+                    {nave && !cargando && nave.map(star => (
                         <div key={star.uid} className="sw-card-container">
                             <div className="sw-card">
                                 <div className="elemento-imagen">
@@ -106,25 +110,29 @@ const StarShips = () => {
                             </div>
                         </div>
                     ))}
-                    <div className="d-flex justify-content-between mt-4">
-                        <button
-                            className="btn btn-secondary"
-                            disabled={!prevUrl || cargando}
-                            onClick={() => getStarShipsBasics(prevUrl)}
-                        >
-                            Anterior
-                        </button>
+                    <div className="sw-pagination">
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-prev"
+                                disabled={!prevUrl || cargando}
+                                onClick={() => getVehiclesBasics(prevUrl)}
+                            >
+                                ⬅️ Anterior
+                            </button>
+                        }
 
-                        <button
-                            className="btn btn-primary"
-                            disabled={!nextUrl || cargando}
-                            onClick={() => getStarShipsBasics(nextUrl)}
-                        >
-                            Siguiente
-                        </button>
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-next"
+                                disabled={!nextUrl || cargando}
+                                onClick={() => getVehiclesBasics(nextUrl)}
+                            >
+                                Siguiente ➡️
+                            </button>
+                        }
                     </div>
-                    {cargando && <h1>Cargando...</h1>}
-                    {error && <h1>Oh no! ha ocurrido un error</h1>}
+                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
+                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
                 </div>
             </div>
 

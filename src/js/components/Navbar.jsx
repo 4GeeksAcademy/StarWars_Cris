@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 const Navbar = () => {
     return (
-        <nav className="navbar navbar-expand-lg custom-navbar mb-5">
+        <nav className="navbar navbar-expand-lg custom-navbar mb-2 navbar-element">
             <div className="container-fluid">
                 <Link to={"/"}>
                 <img
@@ -20,32 +20,7 @@ const Navbar = () => {
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link to={"/planets"}>
-                            <button className="btn-navbar">
-                                Planetas
-                            </button>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to={"/species"}>
-                            <button className="btn-navbar">
-                                Especies
-                            </button>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to={"/vehicles"}>
-                            <button className="btn-navbar">
-                                Vehículos
-                            </button>
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+                <h1>Frikipedia</h1>
             </div>
         </nav>
     );

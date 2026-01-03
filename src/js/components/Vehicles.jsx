@@ -69,47 +69,62 @@ const Vehicles = () => {
 
     return (
         <>
+            <h1 className="sw-title">Vehículos</h1>
+            <Link to={"/"}>
+                <h2 className="sw-title">Volver al Inicio</h2>
+            </Link>
             <div className="container">
                 <div className="row">
-                    {vehiculos && vehiculos.map(vehiculo => (
-                        <div key={vehiculo.uid} className="col-xl-4 col-md-6 col-sm-12">
-                            <div className="card mb-3">
-                                <img
-                                    src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/vehicles/${vehiculo.uid}.jpg`}
-                                    className="card-img-top"
-                                    alt={vehiculo.properties.name}
-                                    onError={(e) => {
-                                        e.target.src = imagenNoDisponible;
-                                    }}
-                                />
-                                <div className="card-body">
-                                    <h5 className="card-title">{vehiculo.properties.name}</h5>
-                                    <a href="#" className="btn btn-primary">Ver Más</a>
+                    {vehiculos && !cargando && vehiculos.map(vehiculo => (
+                        <div key={vehiculo.uid} className="sw-card-container">
+                            <div className="sw-card">
+                                <div className="elemento-imagen">
+                                    <img
+                                        src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/vehicles/${vehiculo.uid}.jpg`}
+                                        className="card-img-top"
+                                        alt={vehiculo.properties.name}
+                                        onError={(e) => {
+                                            e.target.src = imagenNoDisponible;
+                                        }}
+                                    />
+                                </div>
+                                <div className="elemento-detalles">
+                                    <h2 className="vehiculoacter-name">{vehiculo.properties.name}</h2>
+
+                                    <p><span className="label">Capacidad de carga:</span> {vehiculo.properties.cargo_capacity}</p>
+                                    <p><span className="label">Pasajeros:</span> {vehiculo.properties.passengers}</p>
+                                    <p><span className="label">Largo:</span> {vehiculo.properties.length}</p>
+                                    <p><span className="label">Modelo:</span> {vehiculo.properties.model}</p>
+                                    <p><span className="label">Precio:</span> {vehiculo.properties.cost_in_credits}</p>
+                                    <p><span className="label">Manofacturado por:</span>{vehiculo.properties.manufacturer}</p>
                                 </div>
                             </div>
 
                         </div>
                     ))}
-                    <div className="d-flex justify-content-between mt-4">
-                        <button
-                            className="btn btn-secondary"
-                            disabled={!prevUrl || cargando}
-                            onClick={() => getVehiclesBasics(prevUrl)}
-                        >
-                            Anterior
-                        </button>
+                    <div className="sw-pagination">
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-prev"
+                                disabled={!prevUrl || cargando}
+                                onClick={() => getVehiclesBasics(prevUrl)}
+                            >
+                                ⬅️ Anterior
+                            </button>
+                        }
 
-                        <button
-                            className="btn btn-primary"
-                            disabled={!nextUrl || cargando}
-                            onClick={() => getVehiclesBasics(nextUrl)}
-                        >
-                            Siguiente
-                        </button>
+                        {!cargando &&
+                            <button
+                                className="sw-btn sw-btn-next"
+                                onClick={() => getVehiclesBasics(nextUrl)}
+                            >
+                                Siguiente ➡️
+                            </button>
+                        }
                     </div>
 
-                    {cargando && <h1>Cargando...</h1>}
-                    {error && <h1>Oh no! ha ocurrido un error</h1>}
+                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
+                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
                 </div>
             </div>
         </>
