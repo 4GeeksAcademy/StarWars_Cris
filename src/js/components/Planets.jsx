@@ -70,9 +70,12 @@ const Planets = () => {
     return (
         <>
             <h1 className="sw-title">Planetas</h1>
-            <Link to={"/"}>
-                <h2 className="sw-title">Volver al Inicio</h2>
-            </Link>
+            {!cargando &&
+                <Link to={"/"}>
+                    <h2 className="sw-title">Volver al Inicio</h2>
+                </Link>
+            }
+
 
             <div className="container">
                 <div className="row">
