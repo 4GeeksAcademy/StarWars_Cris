@@ -11,15 +11,6 @@ const Navbar = () => {
                     width="100"
                     />
                 </Link>
-
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
                 <h1>Frikipedia</h1>
             </div>
         </nav>
