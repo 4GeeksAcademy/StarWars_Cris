@@ -46,6 +46,9 @@ const Films = () => {
                                 <p className="card-text">
                                     Fecha de estreno: {film.properties.release_date}
                                 </p>
+                                <button className="btn btn-primary">
+                                    Ver Más
+                                </button>
                             </div>
                         </div>
                     </div>

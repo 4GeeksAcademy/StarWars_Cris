@@ -16,14 +16,19 @@ const Planets = () => {
     const[error, setError] = useState(false)
     const[cargando, setCargando] = useState(false)
 
+    const[nextUrl, setNextUrl] = useState()
+    const[prevUrl, setPrevUrl] = useState()
 
-    const getPlanetBasics = async () => {
+
+    const getPlanetBasics = async (url = URL_BASIC_PLANETS) => {
         try {
             setCargando(true)
-            const res = await fetch(`${URL_BASIC_PLANETS}`)
+            const res = await fetch(url)
             if (!res.ok) throw new Error("No se ha cargado la informacion basica de los planetas")
 
             const data = await res.json();
+            setNextUrl(data.next)
+            setPrevUrl(data.previous)
             getPlanetDetails(data.results)
 
         } catch (error) {
@@ -84,6 +89,23 @@ const Planets = () => {
                             </div>
                         </div>
                     ))}
+                    <div className="d-flex justify-content-between mt-4">
+                        <button
+                            className="btn btn-secondary"
+                            disabled={!prevUrl || cargando}
+                            onClick={() => getPlanetBasics(prevUrl)}
+                        >
+                            Anterior
+                        </button>
+
+                        <button
+                            className="btn btn-primary"
+                            disabled={!nextUrl || cargando}
+                            onClick={() => getPlanetBasics(nextUrl)}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                     {error && <h1>Oh no! ha ocurrido un error</h1>}
                     {cargando && <h1>Cargando...</h1>}
                 </div>

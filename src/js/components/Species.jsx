@@ -16,13 +16,18 @@ const Species = () => {
     const [error, setError] = useState(false)
     const [cargando, setCargando] = useState(false)
 
-    const getSpecieBasics = async () => {
+    const[nextUrl, setNextUrl] = useState()
+    const[prevUrl, setPrevUrl] = useState()
+
+    const getSpecieBasics = async (url = URL_BASIC_SPECIES) => {
         try {
             setCargando(true)
-            const res = await fetch(`${URL_BASIC_SPECIES}`)
+            const res = await fetch(url)
             if (!res.ok) throw new Error("No se han podido conseguir los datos basicos de las especies")
 
             const data = await res.json();
+            setNextUrl(data.next)
+            setPrevUrl(data.previous)
             getSpecieDetails(data.results)
 
         } catch (error) {
@@ -85,6 +90,23 @@ const Species = () => {
                             </div>
                         </div>
                     ))}
+                    <div className="d-flex justify-content-between mt-4">
+                        <button
+                            className="btn btn-secondary"
+                            disabled={!prevUrl || cargando}
+                            onClick={() => getSpecieBasics(prevUrl)}
+                        >
+                            Anterior
+                        </button>
+
+                        <button
+                            className="btn btn-primary"
+                            disabled={!nextUrl || cargando}
+                            onClick={() => getSpecieBasics(nextUrl)}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                     {cargando && !error && <h1>Cargando...</h1>}
                     {error && <h1>Se ha producido un error</h1>}
                 </div>

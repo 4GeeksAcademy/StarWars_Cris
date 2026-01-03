@@ -3,55 +3,135 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "./AppContexts";
 
-const Characters = () =>{
+const Characters = () => {
 
-    const URL_BASIC_API = 'https://www.swapi.tech/api/'
+    const URL_BASIC_CHARACTERS = 'https://www.swapi.tech/api/people'
 
     const {
         personaje,
         setPersonaje,
     } = useContext(AppContext)
 
-    const[error, setError] = useState(false)
-    
+    const [cargando, setCargando] = useState(false)
+    const [error, setError] = useState(false)
+
+    const [nextUrl, setNextUrl] = useState()
+    const [prevUrl, setPrevUrl] = useState()
 
 
-    const getCharacters = () => {
-        fetch(`${URL_BASIC_API}people/`)
-        .then(res => {
-            if(!res.ok){
-                throw new Error('No se pudo conseguir los personajes')
-            }
-            return res.json();
-        })
-        .then(data => setPersonaje(data.results))
-        .catch(setError(true))
+
+    const getCharacters = async (url = URL_BASIC_CHARACTERS) => {
+        try {
+            setCargando(true)
+            const res = await fetch(url)
+            if (!res.ok) throw new Error("No se pudo conseguir la informacion de los personajes.")
+
+            const data = await res.json();
+            setNextUrl(data.next)
+            setPrevUrl(data.previous)
+            getCharactersDetails(data.results)
+
+        } catch (error) {
+            setError(true)
+            console.error(error)
+        }
     }
-    useEffect(()=>{
-        if(personaje.length === 0){
+
+    const getCharactersDetails = async (chars) => {
+        try {
+            const promises = chars.map(async (char) => {
+                const res = await fetch(char.url);
+                const data = await res.json();
+                const character = data.result;
+
+                let homeworldName = "Desconocido";
+
+                if (character.properties.homeworld) {
+                    try {
+                        const planetRes = await fetch(character.properties.homeworld);
+                        const planetData = await planetRes.json();
+                        homeworldName = planetData.result.properties.name;
+                    } catch {
+                        homeworldName = "Desconocido";
+                    }
+                }
+                
+                return {
+                    ...character,
+                    homeworldName
+                };
+            });
+
+            const details = await Promise.all(promises);
+            setPersonaje(details);
+            setCargando(false);
+
+        } catch (error) {
+            console.error(error);
+            setError(true);
+            setCargando(false);
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (personaje.length === 0) {
             getCharacters();
         }
     }, [])
 
-    return(
+    return (
         <>
-        <div className="container">
-            <div className="row">
-                    <h1>Personajes</h1>
+            <div className="container">
+                <div className="row">
+                    <h1 className="sw-title">Personajes</h1>
+
                     {personaje && personaje.map(char => (
-                        <div key={char.uid} className="card col-md-6 col-xl-4 col-sm-12 my-3">
-                            <div className="card-title mb-3">
-                                <img src={"https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/" + char.uid + ".jpg"} className="card-img-top" alt={char.name}></img>
-                            </div>
-                            <div className="card-body">
-                                <h1 className="card-title">{char.name}</h1>
-                                <a href="#" className="btn btn-primary">Ver Más</a>
+                        <div key={char.uid} className="sw-card-container">
+                            <div className="sw-card">
+                                <div className="elemento-imagen">
+                                    <img
+                                        src={`https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/${char.uid}.jpg`}
+                                        alt={char.properties.name}
+                                    />
+                                </div>
+
+                                <div className="elemento-detalles">
+                                    <h2 className="character-name">{char.properties.name}</h2>
+
+                                    <p><span className="label">Altura:</span> {char.properties.height} cm</p>
+                                    <p><span className="label">Peso:</span> {char.properties.mass} kg</p>
+                                    <p><span className="label">Género:</span> {char.properties.gender === "n/a" ? "No deberías preguntar eso..." : char.properties.gender}</p>
+                                    <p><span className="label">Color de pelo:</span> {char.properties.hair_color === "n/a" ? "No tiene un pelo de tonto" : char.properties.hair_color}</p>
+                                    <p><span className="label">Fecha de nacimiento:</span> {char.properties.birth_year}</p>
+                                    <p><span className="label">Planeta natal:</span>{char.homeworldName}</p>
+
+                                </div>
                             </div>
                         </div>
                     ))}
+
+                    <div className="d-flex justify-content-between mt-4">
+                        <button
+                            className="btn btn-secondary"
+                            disabled={!prevUrl || cargando}
+                            onClick={() => getCharacters(prevUrl)}
+                        >
+                            Anterior
+                        </button>
+
+                        <button
+                            className="btn btn-primary"
+                            disabled={!nextUrl || cargando}
+                            onClick={() => getCharacters(nextUrl)}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                     {error && <h1>Ha habido un error</h1>}
+                </div>
             </div>
-        </div>
         </>
     )
 }

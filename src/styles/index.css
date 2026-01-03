@@ -9,6 +9,7 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+/* Edicion de estilos del Navbar*/
 body{
     background-color: rgb(62, 62, 62);
 }
@@ -60,3 +61,127 @@ body{
     color: yellow;
     border-radius: 10px;
 }
+
+
+/*Editar las cards de los personajes:*/
+
+.sw-title {
+    font-family: 'Star Jedi', sans-serif;
+    text-align: center;
+    color: #ffe81f;
+    letter-spacing: 4px;
+    margin: 60px 0;
+    text-transform: uppercase;
+}
+
+.sw-card-container {
+    width: 100%;
+    padding: 0 5vw;
+    margin-bottom: 50px;
+}
+
+.sw-card {
+    display: flex;
+    gap: 30px;
+    padding: 30px;
+    border-radius: 20px;
+
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 0 15px rgba(255, 255, 255, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+
+    transition: transform 0.3s ease;
+}
+
+.sw-card:hover {
+    transform: scale(1.01);
+}
+
+.elemento-imagen {
+    width: 220px;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.elemento-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.elemento-imagen:hover img {
+    transform: scale(1.1);
+    animation: neonGlow 2.5s infinite alternate;
+}
+
+.elemento-imagen:hover {
+    animation: neonGlow 2.5s infinite alternate;
+}
+
+@keyframes neonGlow {
+    0% {
+        box-shadow: 0 0 25px #ff0000;
+    }
+    25% {
+        box-shadow: 0 0 25px #00bfff;
+    }
+    50% {
+        box-shadow: 0 0 25px #00ff7f;
+    }
+    75% {
+        box-shadow: 0 0 25px #9b30ff;
+    }
+    100% {
+        box-shadow: 0 0 25px #ff1493;
+    }
+}
+
+.elemento-detalles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #eaeaea;
+}
+
+.character-name {
+    color: #ffe81f;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.label {
+    color: #00e5ff;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.elemento-detalles p {
+    margin: 6px 0;
+    font-size: 1rem;
+}
+
+/*Editar el video de fondo*/
+
+.video-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+}
+
+

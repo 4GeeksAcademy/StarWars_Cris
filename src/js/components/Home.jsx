@@ -10,6 +10,7 @@ import StarShips from "./StarShips";
 import Planets from "./Planets";
 import Species from "./Species";
 import Vehicles from "./Vehicles";
+import VideoBackground from "./VideoBackground";
 
 const Home = () => {
 	return (
@@ -25,7 +26,8 @@ const Home = () => {
 				<Route path={"/species"} element={<Species />} />
 				<Route path={"/vehicles"} element={<Vehicles />} />
 			</Routes>
-			<Footer />
+				<VideoBackground />
+			
 		</BrowserRouter>
 		</>
 	);
