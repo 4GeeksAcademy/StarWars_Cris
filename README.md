@@ -1,39 +1,155 @@
-# Hello World with React boilerplate
+# ⭐ Star Wars Blog — React Project
 
-Start coding a react application
+Aplicación web desarrollada con **React** que consume la API pública **SWAPI** para explorar el universo de Star Wars.
 
-> If you are working locally instead of using codespaces or gitpod, please follow [local installation steps](#local-installation-skip-if-you-are-working-on-codespaces-or-gitpod) and come back to this part of the readme.
+Este proyecto forma parte de mi portfolio personal y ha sido diseñado para consolidar conceptos avanzados de React como **gestión de estado global con Context + useReducer**, **paginación**, **rutas dinámicas** y **arquitectura escalable**.
 
-## How to start coding?
+🌐 Live demo: Próximamente (Render / Vercel)
 
-- Install the packages with `$ npm install`.
-- Run the webpack server with `$ npm run start`
+---
 
-You can update the `styles/index.css` or `js/index.js` depending on your needs.
-Add more files into your, `./src/js/components` or styles folder as you need them.
+## 🚀 Funcionalidades principales
 
-## Local Installation (skip if you are working on codespaces or gitpod)
+- 📜 Listado de entidades del universo Star Wars:
+  - Personajes
+  - Películas
+  - Naves
+  - Planetas
+  - Especies
+  - Vehículos
+- 🔍 Páginas de **detalle individual** para cada entidad (excepto películas)
+- ⭐ Sistema de **favoritos global**, accesible desde cualquier sección
+- ♻️ Paginación conectada a la API
+- 🎥 Vídeo de fondo en loop para ambientación
+- ✨ Interfaz con estética Star Wars (neón, blur, transiciones)
+- 📱 Diseño responsive
 
-Download the boilerplate using git
+---
+
+## 🧠 Tecnologías utilizadas
+
+- **React**
+- **React Router DOM**
+- **Context API**
+- **useReducer**
+- **Fetch API**
+- **CSS personalizado**
+- **SWAPI (swapi.tech)**
+
+---
+
+## 🗂️ Arquitectura y gestión de estado
+
+El estado global de la aplicación se gestiona mediante **Context API + useReducer**, lo que permite:
+
+- Centralizar los datos obtenidos de la API
+- Manejar estados de carga y error de forma consistente
+- Gestionar una lista de favoritos compartida entre componentes
+- Reducir prop drilling
+- Facilitar la escalabilidad del proyecto
+
+Cada entidad (people, films, starships, etc.) mantiene su propio slice de estado.
+
+---
+
+## ▶️ Instalación y ejecución
+
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/tu-usuario/tu-repositorio.git
+```
+
+2. Instalar dependencias:
+```bash
+npm install
 
 ```
-$ git clone https://github.com/4GeeksAcademy/react-hello.git
-$ cd react-hello
+
+3. Ejecutar proyecto:
+```bash
+npm run start
+
 ```
 
-## Publish your website!
+## 🧠 Arquitectura del proyecto
 
-This boilerplate is 100% compatible with the free [github pages](https://pages.github.com/) and [vercel](https://vercel.com/) hosting.
+```bash
+src/
+├─ js/
+│  ├─ components/
+│  │  ├─ Characters.jsx
+│  │  ├─ Films.jsx
+│  │  ├─ Starships.jsx
+│  │  ├─ Planets.jsx
+│  │  ├─ Species.jsx
+│  │  ├─ Vehicles.jsx
+│  │  ├─ Favorites.jsx
+│  │  ├─ Navbar.jsx
+│  │  ├─ Footer.jsx
+│  │  ├─ MainPage.jsx
+│  │  ├─ Home.jsx
+│  │  └─ VideoBackground.jsx
+│  │
+│  ├─ componentsDetails/
+│  │  ├─ CharactersDetails.jsx
+│  │  ├─ PlanetsDetails.jsx
+│  │  ├─ SpeciesDetails.jsx
+│  │  ├─ StarshipsDetails.jsx
+│  │  └─ VehiclesDetails.jsx
+│  │
+│  ├─ store/
+│  │  ├─ actions.js
+│  │  ├─ initialStore.js
+│  │  └─ reducer.js
+│  │
+│  ├─ AppContexts.jsx
+│  └─ main.jsx
+│
+├─ styles/
+│  └─ index.css
+```
+## 🔧 Puntos a mejorar (trabajo futuro)
 
-It takes just 2 minutes to deploy, [click here to start the process](https://4geeks.com/docs/start/deploy-to-render-com).
+Este proyecto ha sido una base sólida, pero hay varios aspectos que se pueden optimizar y ampliar:
 
-## Other features
+🧹 Orden y limpieza de archivos
 
-- Automatic Code Formatting: Use of [Prettier](https://prettier.io/) for automatic code indentation and formatting.
-- Error reporting: Use of [eslint](https://eslint.org/) for better error reporting.
+Separar mejor lógica, vistas y utilidades
 
-### Contributors
+Normalizar nombres y carpetas
 
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
+💾 Persistencia en localStorage
 
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
+Guardar favoritos y datos de la API para evitar pérdidas al recargar
+
+Reducir llamadas innecesarias a la API
+
+🔎 Sistema de búsqueda
+
+Filtro por nombre en cada sección
+
+Búsqueda avanzada usando propiedades del objeto (ej. género, planeta, tipo)
+
+⚡ Optimización de rendimiento
+
+Memoización de componentes
+
+Carga diferida (lazy loading) de vistas de detalle
+
+
+## 🧠 Aprendizajes clave
+
+Diseño de una aplicación React con estado global real
+
+Uso práctico de useReducer en un proyecto completo
+
+Consumo y normalización de datos de una API externa
+
+Gestión de rutas dinámicas
+
+Enfoque en experiencia de usuario y diseño visual
+
+## 👤 Autor
+
+Cristian Trapiello
+Proyecto personal desarrollado como parte de mi proceso de aprendizaje y crecimiento como desarrollador frontend.
