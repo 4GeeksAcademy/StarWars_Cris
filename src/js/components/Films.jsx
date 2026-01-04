@@ -57,11 +57,14 @@ const Films = () => {
                                 </div>
                                 <div className="elemento-detalles">
                                     <h2 className="character-name">{film.properties.title}</h2>
+                                    <h3><span className="label">Episodio:</span> {film.properties.episode_id}</h3>
+
                                     <p><span className="label">Fecha de lanzamiento:</span> {film.properties.release_date}</p>
                                     <p><span className="label">Director:</span> {film.properties.director}</p>
-                                    <button className="sw-btn my-3">
-                                        Ver Más
-                                    </button>
+
+                                    <p className="film-synopsis">
+                                        <span className="label">Sinópsis:</span> {film.properties.opening_crawl}
+                                    </p>
                                 </div>
 
                             </div>

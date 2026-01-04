@@ -14,7 +14,6 @@ import Vehicles from "./Vehicles";
 /*Componentes de detalles*/
 import VehiclesDetails from "./ComponentDetails/VehiclesDetails";
 import CharacterDetails from "./ComponentDetails/CharactersDetails";
-import FilmDetails from "./ComponentDetails/FilmDetails";
 import StarshipsDetails from "./ComponentDetails/StarshipsDetails";
 import PlanetsDetails from "./ComponentDetails/PlanetsDetails";
 import SpecieDetails from "./ComponentDetails/Species";
@@ -39,7 +38,6 @@ const Home = () => {
 
 					{/*Compontentes de Detalles*/}
 					<Route path={"/characters/details/:id"} element={<CharacterDetails />} />
-					<Route path={"/films/details/:id"} element={<FilmDetails />} />
 					<Route path={"/starships/details/:id"} element={<StarshipsDetails />} />
 					<Route path={"/planets/details/:id"} element={<PlanetsDetails />} />
 					<Route path={"/species/details/:id"} element={<SpecieDetails />} />
