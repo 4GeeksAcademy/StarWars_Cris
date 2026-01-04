@@ -152,4 +152,5 @@ Enfoque en experiencia de usuario y diseño visual
 ## 👤 Autor
 
 Cristian Trapiello
+
 Proyecto personal desarrollado como parte de mi proceso de aprendizaje y crecimiento como desarrollador frontend.
