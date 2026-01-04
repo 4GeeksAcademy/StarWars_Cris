@@ -29,7 +29,8 @@ const StarShips = () => {
             const data = await res.json();
             setNextUrl(data.next)
             setPrevUrl(data.previous)
-            getStarShipsDetails(data.results)
+            setNave(data.results)
+            setCargando(false)
 
         } catch (error) {
             console.log(error);
@@ -38,41 +39,11 @@ const StarShips = () => {
 
     }
 
-    const getStarShipsDetails = async (ships) => {
-        try {
-            const promises = ships.map(ship =>
-                fetch(ship.url)
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error("No se pudieron conseguir los detalles")
-                        }
-                        return res.json();
-                    })
-                    .then(data => data.result)
-            )
-
-            const details = await Promise.all(promises);
-            setNave(details);
-            setCargando(false)
-
-        } catch (error) {
-            console.log(error)
-            setError(true)
-        }
-    }
-
-    const getStarShipsNavigation = async () => {
-        const res = await fetch(URL_BASIC_API);
-        const data = await res.json();
-        setNextUrl(data.next);
-        setPrevUrl(data.previous);
-    };
 
     useEffect(() => {
         if (nave.length === 0) {
             getStarShipsBasics();
         }
-        getStarShipsNavigation();
     }, [])
 
     return (
@@ -93,21 +64,20 @@ const StarShips = () => {
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/starships/${star.uid}.jpg`}
                                         className="card-img-top"
-                                        alt={star.properties.name}
+                                        alt={star.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
                                 <div className="elemento-detalles">
-                                    <h2 className="character-name">{star.properties.name}</h2>
+                                    <h2 className="character-name">{star.name}</h2>
 
-                                    <p><span className="label">Velocidad atmosferica:</span> {star.properties.max_atmosphering_speed}</p>
-                                    <p><span className="label">Coste:</span> {star.properties.cost_in_credits}</p>
-
-                                    <button className="sw-btn my-3">
-                                        Ver más
-                                    </button>
+                                    <Link to={`/starships/details/${star.uid}`}>
+                                        <button className="sw-btn my-3">
+                                            Ver más
+                                        </button>
+                                    </Link>
 
                                 </div>
                             </div>

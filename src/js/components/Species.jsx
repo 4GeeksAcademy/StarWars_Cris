@@ -28,48 +28,13 @@ const Species = () => {
             const data = await res.json();
             setNextUrl(data.next)
             setPrevUrl(data.previous)
-            getSpecieDetails(data.results)
-
-        } catch (error) {
-            console.error(error)
-            setError(true)
-        }
-    }
-
-    const getSpecieDetails = async (species) => {
-        try {
-            const promises = species.map(async (specie) => {
-
-                const res = await fetch(specie.url);
-                const data = await res.json();
-                const especie = data.result
-
-                let homeworldName = "Desconocido"
-                if (especie.properties.homeworld) {
-                    try {
-                        const planetRes = await fetch(especie.properties.homeworld);
-                        const planetData = await planetRes.json();
-                        homeworldName = planetData.result.properties.name;
-                    } catch {
-                        homeworldName = "Desconocido"
-                    }
-                }
-
-                return {
-                    ...especie,
-                    homeworldName
-                };
-            });
-
-            const details = await Promise.all(promises)
-            setEspecies(details)
+            setEspecies(data.results)
             setCargando(false)
 
         } catch (error) {
             console.error(error)
             setError(true)
         }
-
     }
 
     useEffect(() => {
@@ -98,21 +63,20 @@ const Species = () => {
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/species/${especie.uid}.jpg`}
                                         className="card-img-top"
-                                        alt={especie.properties.name}
+                                        alt={especie.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
                                 <div className="elemento-detalles">
-                                    <h5 className="character-name">{especie.properties.name}</h5>
+                                    <h2 className="character-name">{especie.name}</h2>
 
-                                    <p><span className="label">Lenguaje:</span> {especie.properties.language}</p>
-                                    <p><span className="label">Planeta de origen:</span> {especie.homeworldName}</p>
-
-                                    <button className="sw-btn my-3">
-                                        Ver más
-                                    </button>
+                                    <Link to={`/species/details/${especie.uid}`}>
+                                        <button className="sw-btn my-3">
+                                            Ver más
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

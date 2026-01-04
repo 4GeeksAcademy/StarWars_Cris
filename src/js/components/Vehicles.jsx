@@ -32,33 +32,14 @@ const Vehicles = () => {
 
             setNextUrl(data.next);
             setPrevUrl(data.previous);
-
-            getVehiclesDetail(data.results);
+            setVehiculos(data.results)
+            setCargando(false)
 
         } catch (error) {
             setError(true);
             console.error(error);
         }
     };
-
-
-    const getVehiclesDetail = async (vehicles) => {
-        try {
-            const promises = vehicles.map(vehicle =>
-                fetch(vehicle.url)
-                    .then(res => res.json())
-                    .then(data => data.result)
-            )
-
-            const details = await Promise.all(promises);
-            setVehiculos(details);
-            setCargando(false)
-
-        } catch (error) {
-            setError(true)
-            console.error(error)
-        }
-    }
 
     useEffect(() => {
         if (vehiculos.length === 0) {
@@ -84,21 +65,19 @@ const Vehicles = () => {
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/vehicles/${vehiculo.uid}.jpg`}
                                         className="card-img-top"
-                                        alt={vehiculo.properties.name}
+                                        alt={vehiculo.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
                                 <div className="elemento-detalles">
-                                    <h2 className="character-name">{vehiculo.properties.name}</h2>
-
-                                    <p><span className="label">Modelo:</span> {vehiculo.properties.model}</p>
-                                    <p><span className="label">Precio:</span> {vehiculo.properties.cost_in_credits}</p>
-                                    
-                                    <button className="sw-btn my-3">
-                                        Ver más
-                                    </button>
+                                    <h2 className="character-name">{vehiculo.name}</h2>
+                                    <Link to={`/vehicles/details/${vehiculo.uid}`}>
+                                        <button className="sw-btn my-3">
+                                            Ver más
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
 

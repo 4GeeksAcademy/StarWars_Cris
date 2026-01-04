@@ -29,31 +29,8 @@ const Planets = () => {
             const data = await res.json();
             setNextUrl(data.next)
             setPrevUrl(data.previous)
-            getPlanetDetails(data.results)
-
-        } catch (error) {
-            setError(true)
-            console.error(error)
-        }
-    }
-
-    const getPlanetDetails = async (planets) => {
-        try {
-            const promises = planets.map(planet =>
-                fetch(planet.url)
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error("No se pudieron conseguir los detalles")
-                        }
-                        return res.json();
-                    })
-                    .then(data => data.result)
-            )
-
-            const details = await Promise.all(promises);
-            setPlanetas(details)
+            setPlanetas(data.results)
             setCargando(false)
-
 
         } catch (error) {
             setError(true)
@@ -86,20 +63,20 @@ const Planets = () => {
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/planets/${planeta.uid}.jpg`}
                                         className="card-img-top"
-                                        alt={planeta.properties.name}
+                                        alt={planeta.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
                                 <div className="elemento-detalles">
-                                    <h2 className="character-name">{planeta.properties.name}</h2>
+                                    <h2 className="character-name">{planeta.name}</h2>
 
-                                    <p><span className="label">Clima:</span> {planeta.properties.climate}</p>
-                                    <p><span className="label">Gravedad:</span> {planeta.properties.gravity}</p>
-                                    <button className="sw-btn my-3">
-                                        Ver más
-                                    </button>
+                                    <Link to={`/planets/details/${planeta.uid}`}>
+                                        <button className="sw-btn my-3">
+                                            Ver más
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

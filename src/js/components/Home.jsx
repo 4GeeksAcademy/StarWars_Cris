@@ -16,7 +16,7 @@ import VehiclesDetails from "./ComponentDetails/VehiclesDetails";
 import CharacterDetails from "./ComponentDetails/CharactersDetails";
 import StarshipsDetails from "./ComponentDetails/StarshipsDetails";
 import PlanetsDetails from "./ComponentDetails/PlanetsDetails";
-import SpecieDetails from "./ComponentDetails/Species";
+import SpecieDetails from "./ComponentDetails/SpeciesDetails.jsx";
 
 /*Vídeo del Background*/
 import VideoBackground from "./VideoBackground";
