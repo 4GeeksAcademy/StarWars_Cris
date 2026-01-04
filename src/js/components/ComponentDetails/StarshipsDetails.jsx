@@ -77,7 +77,7 @@ const StarshipsDetails = () => {
 
                             <Link to="/starships">
                                 <button className="sw-btn mt-4">
-                                    ⬅️ Volver
+                                    ⬅️ Volver a Starships
                                 </button>
                             </Link>
                         </div>

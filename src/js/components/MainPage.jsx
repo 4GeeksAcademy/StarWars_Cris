@@ -41,6 +41,11 @@ const MainPage = () => {
                         🚅 Vehículos
                     </button>
                 </Link>
+                <Link to="/favorites">
+                    <button className="btn-category">
+                        ⭐ Favoritos
+                    </button>
+                </Link>
             </div>
             <Footer />
         </>

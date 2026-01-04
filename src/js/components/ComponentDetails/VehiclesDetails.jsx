@@ -75,7 +75,7 @@ const VehiclesDetails = () => {
 
                             <Link to="/vehicles">
                                 <button className="sw-btn mt-4">
-                                    ⬅️ Volver
+                                    ⬅️ Volver a Vehículos
                                 </button>
                             </Link>
                         </div>

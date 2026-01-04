@@ -1,74 +1,78 @@
-import React from "react";
-import { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "./AppContexts";
-import imagenNoDisponible from "../../img/imagen.png"
+import imagenNoDisponible from "../../img/imagen.png";
 
 const Species = () => {
+    const URL_BASIC_SPECIES = "https://www.swapi.tech/api/species";
 
-    const URL_BASIC_SPECIES = "https://www.swapi.tech/api/species"
+    const { state, dispatch } = useContext(AppContext);
+    const { data, loading, error } = state.species;
+    const favorites = state.favorites;
 
-    const {
-        especies,
-        setEspecies
-    } = useContext(AppContext)
+    const [nextUrl, setNextUrl] = useState(null);
+    const [prevUrl, setPrevUrl] = useState(null);
 
-    const [error, setError] = useState(false)
-    const [cargando, setCargando] = useState(false)
+    const isFavorite = (especie) =>
+        favorites.some(
+            fav => fav.uid === especie.uid && fav.type === "species"
+        );
 
-    const [nextUrl, setNextUrl] = useState()
-    const [prevUrl, setPrevUrl] = useState()
-
-    const getSpecieBasics = async (url = URL_BASIC_SPECIES) => {
+    const getSpecies = async (url = URL_BASIC_SPECIES) => {
         try {
-            setCargando(true)
-            const res = await fetch(url)
-            if (!res.ok) throw new Error("No se han podido conseguir los datos basicos de las especies")
+            dispatch({ type: "FETCH_START", entity: "species" });
 
-            const data = await res.json();
-            setNextUrl(data.next)
-            setPrevUrl(data.previous)
-            setEspecies(data.results)
-            setCargando(false)
+            const res = await fetch(url);
+            if (!res.ok) throw new Error("Error cargando especies");
 
-        } catch (error) {
-            console.error(error)
-            setError(true)
+            const result = await res.json();
+
+            setNextUrl(result.next);
+            setPrevUrl(result.previous);
+
+            dispatch({
+                type: "FETCH_SUCCESS",
+                entity: "species",
+                payload: result.results
+            });
+        } catch (err) {
+            dispatch({
+                type: "FETCH_ERROR",
+                entity: "species",
+                payload: err.message
+            });
         }
-    }
+    };
 
     useEffect(() => {
-        if (especies.length === 0) {
-            getSpecieBasics();
-        }
-    }, [])
-
-
+        getSpecies();
+    }, []);
 
     return (
         <>
             <h1 className="sw-title">Especies</h1>
-            {!cargando &&
-                <Link to={"/"}>
+
+            {!loading && (
+                <Link to="/">
                     <h2 className="sw-title">Volver al Inicio</h2>
                 </Link>
-            }
+            )}
 
             <div className="container">
                 <div className="row">
-                    {especies && !cargando && especies.map(especie => (
+                    {data && !loading && data.map((especie) => (
                         <div key={especie.uid} className="sw-card-container">
                             <div className="sw-card">
                                 <div className="elemento-imagen">
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/species/${especie.uid}.jpg`}
-                                        className="card-img-top"
                                         alt={especie.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
+
                                 <div className="elemento-detalles">
                                     <h2 className="character-name">{especie.name}</h2>
 
@@ -77,37 +81,62 @@ const Species = () => {
                                             Ver más
                                         </button>
                                     </Link>
+
+                                    <button
+                                        className={`sw-btn-fav ${isFavorite(especie) ? "is-favorite" : ""}`}
+                                        onClick={() =>
+                                            dispatch({
+                                                type: isFavorite(especie)
+                                                    ? "REMOVE_FAVORITE"
+                                                    : "ADD_FAVORITE",
+                                                payload: {
+                                                    uid: especie.uid,
+                                                    name: especie.name,
+                                                    type: "species"
+                                                }
+                                            })
+                                        }
+                                    >
+                                        {isFavorite(especie) ? "💔 Quitar" : "❤️ Favorito"}
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     ))}
+
                     <div className="sw-pagination">
-                        {!cargando &&
+                        {!loading && (
                             <button
                                 className="sw-btn sw-btn-prev"
-                                disabled={!prevUrl || cargando}
-                                onClick={() => getSpecieBasics(prevUrl)}
+                                disabled={!prevUrl}
+                                onClick={() => getSpecies(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
-                        }
+                        )}
 
-                        {!cargando &&
+                        {!loading && (
                             <button
                                 className="sw-btn sw-btn-next"
-                                disabled={!nextUrl || cargando}
-                                onClick={() => getSpecieBasics(nextUrl)}
+                                disabled={!nextUrl}
+                                onClick={() => getSpecies(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>
-                        }
+                        )}
                     </div>
-                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
-                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
+
+                    {loading && !error && (
+                        <h1 className="sw-title">Cargando desde muy muy lejos...</h1>
+                    )}
+
+                    {error && (
+                        <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>
+                    )}
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Species;

@@ -1,75 +1,78 @@
-import React from "react";
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "./AppContexts";
-
-import imagenNoDisponible from "../../img/imagen.png"
 import { Link } from "react-router";
+import imagenNoDisponible from "../../img/imagen.png";
 
 const StarShips = () => {
+    const URL_BASIC_API = "https://www.swapi.tech/api/starships";
 
-    const URL_BASIC_API = 'https://www.swapi.tech/api/starships'
+    const { state, dispatch } = useContext(AppContext);
+    const { data, loading, error } = state.starships;
+    const favorites = state.favorites;
 
-    const {
-        nave,
-        setNave
-    } = useContext(AppContext)
+    const [nextUrl, setNextUrl] = useState(null);
+    const [prevUrl, setPrevUrl] = useState(null);
 
-    const [cargando, setCargando] = useState(false)
-    const [error, setError] = useState(false)
+    const isFavorite = (star) =>
+        favorites.some(
+            fav => fav.uid === star.uid && fav.type === "starships"
+        );
 
-    const [nextUrl, setNextUrl] = useState(null)
-    const [prevUrl, setPrevUrl] = useState(null)
-
-    const getStarShipsBasics = async (url = URL_BASIC_API) => {
+    const getStarShips = async (url = URL_BASIC_API) => {
         try {
-            setCargando(true)
+            dispatch({ type: "FETCH_START", entity: "starships" });
+
             const res = await fetch(url);
-            if (!res.ok) throw new Error("No se pudieron conseguir las naves")
+            if (!res.ok) throw new Error("No se pudieron conseguir las naves");
 
-            const data = await res.json();
-            setNextUrl(data.next)
-            setPrevUrl(data.previous)
-            setNave(data.results)
-            setCargando(false)
+            const json = await res.json();
 
-        } catch (error) {
-            console.log(error);
-            setError(true)
+            setNextUrl(json.next);
+            setPrevUrl(json.previous);
+
+            dispatch({
+                type: "FETCH_SUCCESS",
+                entity: "starships",
+                payload: json.results
+            });
+        } catch (err) {
+            dispatch({
+                type: "FETCH_ERROR",
+                entity: "starships",
+                payload: err.message
+            });
         }
-
-    }
-
+    };
 
     useEffect(() => {
-        if (nave.length === 0) {
-            getStarShipsBasics();
-        }
-    }, [])
+        getStarShips();
+    }, []);
 
     return (
         <>
             <h1 className="sw-title">Naves</h1>
-            {!cargando &&
-                <Link to={"/"}>
+
+            {!loading && (
+                <Link to="/">
                     <h2 className="sw-title">Volver al Inicio</h2>
                 </Link>
-            }
+            )}
 
             <div className="container">
                 <div className="row">
-                    {nave && !cargando && nave.map(star => (
+                    {data && !loading && data.map(star => (
                         <div key={star.uid} className="sw-card-container">
                             <div className="sw-card">
                                 <div className="elemento-imagen">
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/starships/${star.uid}.jpg`}
-                                        className="card-img-top"
                                         alt={star.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
+
                                 <div className="elemento-detalles">
                                     <h2 className="character-name">{star.name}</h2>
 
@@ -79,38 +82,61 @@ const StarShips = () => {
                                         </button>
                                     </Link>
 
+                                    <button
+                                        className={`sw-btn-fav ${isFavorite(star) ? "is-favorite" : ""}`}
+                                        onClick={() =>
+                                            dispatch({
+                                                type: isFavorite(star)
+                                                    ? "REMOVE_FAVORITE"
+                                                    : "ADD_FAVORITE",
+                                                payload: {
+                                                    uid: star.uid,
+                                                    name: star.name,
+                                                    type: "starships"
+                                                }
+                                            })
+                                        }
+                                    >
+                                        {isFavorite(star) ? "💔 Quitar" : "❤️ Favorito"}
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     ))}
+
                     <div className="sw-pagination">
-                        {!cargando &&
+                        {!loading && (
                             <button
                                 className="sw-btn sw-btn-prev"
-                                disabled={!prevUrl || cargando}
-                                onClick={() => getStarShipsDetails(prevUrl)}
+                                disabled={!prevUrl}
+                                onClick={() => getStarShips(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
-                        }
+                        )}
 
-                        {!cargando &&
+                        {!loading && (
                             <button
                                 className="sw-btn sw-btn-next"
-                                disabled={!nextUrl || cargando}
-                                onClick={() => getStarShipsDetails(nextUrl)}
+                                disabled={!nextUrl}
+                                onClick={() => getStarShips(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>
-                        }
+                        )}
                     </div>
-                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
-                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
+
+                    {loading && !error && (
+                        <h1 className="sw-title">Cargando desde muy muy lejos...</h1>
+                    )}
+
+                    {error && (
+                        <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>
+                    )}
                 </div>
             </div>
-
         </>
-    )
-}
+    );
+};
 
 export default StarShips;

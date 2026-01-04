@@ -86,7 +86,7 @@ const CharacterDetails = () => {
                     {!cargando &&
                         <Link to={"/characters"}>
                             <button className="sw-btn my-4">
-                                ⬅️ Volver
+                                ⬅️ Volver a Personajes
                             </button>
                         </Link>
                     }

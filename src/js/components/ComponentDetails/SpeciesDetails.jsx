@@ -88,7 +88,7 @@ const SpeciesDetails = () => {
 
                             <Link to="/species">
                                 <button className="sw-btn mt-4">
-                                    ⬅️ Volver
+                                    ⬅️ Volver a Especies
                                 </button>
                             </Link>
                         </div>

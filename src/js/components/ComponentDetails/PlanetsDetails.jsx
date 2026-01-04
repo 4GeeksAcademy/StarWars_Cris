@@ -74,7 +74,7 @@ const PlanetsDetails = () => {
 
                             <Link to="/planets">
                                 <button className="sw-btn mt-4">
-                                    ⬅️ Volver
+                                    ⬅️ Volver a Planetas
                                 </button>
                             </Link>
                         </div>

@@ -1,115 +1,142 @@
-import React from "react";
-import { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "./AppContexts";
-import imagenNoDisponible from "../../img/imagen.png"
+import imagenNoDisponible from "../../img/imagen.png";
 
 const Vehicles = () => {
+    const URL_BASIC_VEHICLES = "https://www.swapi.tech/api/vehicles";
 
-    const URL_BASIC_VEHICLES = "https://www.swapi.tech/api/vehicles"
-
-    const {
-        vehiculos,
-        setVehiculos
-    } = useContext(AppContext)
-
-    const [error, setError] = useState(false)
-    const [cargando, setCargando] = useState(false)
+    const { state, dispatch } = useContext(AppContext);
+    const { data, loading, error } = state.vehicles;
+    const favorites = state.favorites;
 
     const [nextUrl, setNextUrl] = useState(null);
     const [prevUrl, setPrevUrl] = useState(null);
 
+    const isFavorite = (vehiculo) =>
+        favorites.some(
+            fav => fav.uid === vehiculo.uid && fav.type === "vehicles"
+        );
 
-    const getVehiclesBasics = async (url = URL_BASIC_VEHICLES) => {
+    const getVehicles = async (url = URL_BASIC_VEHICLES) => {
         try {
-            setCargando(true);
-            setError(false);
+            dispatch({ type: "FETCH_START", entity: "vehicles" });
 
             const res = await fetch(url);
             if (!res.ok) throw new Error("Error cargando vehículos");
 
-            const data = await res.json();
+            const result = await res.json();
 
-            setNextUrl(data.next);
-            setPrevUrl(data.previous);
-            setVehiculos(data.results)
-            setCargando(false)
+            setNextUrl(result.next);
+            setPrevUrl(result.previous);
 
-        } catch (error) {
-            setError(true);
-            console.error(error);
+            dispatch({
+                type: "FETCH_SUCCESS",
+                entity: "vehicles",
+                payload: result.results
+            });
+        } catch (err) {
+            dispatch({
+                type: "FETCH_ERROR",
+                entity: "vehicles",
+                payload: err.message
+            });
         }
     };
 
     useEffect(() => {
-        if (vehiculos.length === 0) {
-            getVehiclesBasics();
-        }
-    }, [])
-
+        getVehicles();
+    }, []);
 
     return (
         <>
             <h1 className="sw-title">Vehículos</h1>
-            {!cargando &&
-                <Link to={"/"}>
+
+            {!loading && (
+                <Link to="/">
                     <h2 className="sw-title">Volver al Inicio</h2>
                 </Link>
-            }
+            )}
+
             <div className="container">
                 <div className="row">
-                    {vehiculos && !cargando && vehiculos.map(vehiculo => (
+                    {data && !loading && data.map((vehiculo) => (
                         <div key={vehiculo.uid} className="sw-card-container">
                             <div className="sw-card">
                                 <div className="elemento-imagen">
                                     <img
                                         src={`https://raw.githubusercontent.com/tbone849/star-wars-guide/master/build/assets/img/vehicles/${vehiculo.uid}.jpg`}
-                                        className="card-img-top"
                                         alt={vehiculo.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
                                     />
                                 </div>
+
                                 <div className="elemento-detalles">
                                     <h2 className="character-name">{vehiculo.name}</h2>
+
                                     <Link to={`/vehicles/details/${vehiculo.uid}`}>
                                         <button className="sw-btn my-3">
                                             Ver más
                                         </button>
                                     </Link>
+
+                                    <button
+                                        className={`sw-btn-fav ${isFavorite(vehiculo) ? "is-favorite" : ""}`}
+                                        onClick={() =>
+                                            dispatch({
+                                                type: isFavorite(vehiculo)
+                                                    ? "REMOVE_FAVORITE"
+                                                    : "ADD_FAVORITE",
+                                                payload: {
+                                                    uid: vehiculo.uid,
+                                                    name: vehiculo.name,
+                                                    type: "vehicles"
+                                                }
+                                            })
+                                        }
+                                    >
+                                        {isFavorite(vehiculo) ? "💔 Quitar" : "❤️ Favorito"}
+                                    </button>
                                 </div>
                             </div>
-
                         </div>
                     ))}
+
                     <div className="sw-pagination">
-                        {!cargando &&
+                        {!loading && (
                             <button
                                 className="sw-btn sw-btn-prev"
-                                disabled={!prevUrl || cargando}
-                                onClick={() => getVehiclesBasics(prevUrl)}
+                                disabled={!prevUrl}
+                                onClick={() => getVehicles(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
-                        }
+                        )}
 
-                        {!cargando &&
+                        {!loading && (
                             <button
                                 className="sw-btn sw-btn-next"
-                                onClick={() => getVehiclesBasics(nextUrl)}
+                                disabled={!nextUrl}
+                                onClick={() => getVehicles(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>
-                        }
+                        )}
                     </div>
 
-                    {cargando && !error && <h1 className="sw-title">Cargando desde muy muy lejos...</h1>}
-                    {error && <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>}
+                    {loading && !error && (
+                        <h1 className="sw-title">Cargando desde muy muy lejos...</h1>
+                    )}
+
+                    {error && (
+                        <h1 className="sw-title">Oh no! error ocurrir por razón alguna</h1>
+                    )}
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Vehicles;

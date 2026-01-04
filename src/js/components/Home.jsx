@@ -10,6 +10,7 @@ import StarShips from "./StarShips";
 import Planets from "./Planets";
 import Species from "./Species";
 import Vehicles from "./Vehicles";
+import Favorites from "./Favorites.jsx";
 
 /*Componentes de detalles*/
 import VehiclesDetails from "./ComponentDetails/VehiclesDetails";
@@ -35,6 +36,8 @@ const Home = () => {
 					<Route path={"/planets"} element={<Planets />} />
 					<Route path={"/species"} element={<Species />} />
 					<Route path={"/vehicles"} element={<Vehicles />} />
+					<Route path="/favorites" element={<Favorites />} />
+
 
 					{/*Compontentes de Detalles*/}
 					<Route path={"/characters/details/:id"} element={<CharacterDetails />} />
