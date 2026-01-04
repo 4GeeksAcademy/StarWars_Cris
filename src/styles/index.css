@@ -10,6 +10,8 @@
 
 */
 /* Edicion de estilos del Navbar*/
+
+
 body{
     background-color: rgb(62, 62, 62);
 }
@@ -46,7 +48,6 @@ body{
 /*Editar las cards de los personajes:*/
 
 .sw-title {
-    font-family: 'Star Jedi', sans-serif;
     text-align: center;
     color: #ffe81f;
     letter-spacing: 4px;
