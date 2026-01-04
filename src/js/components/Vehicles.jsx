@@ -91,14 +91,14 @@ const Vehicles = () => {
                                     />
                                 </div>
                                 <div className="elemento-detalles">
-                                    <h2 className="vehiculoacter-name">{vehiculo.properties.name}</h2>
+                                    <h2 className="character-name">{vehiculo.properties.name}</h2>
 
-                                    <p><span className="label">Capacidad de carga:</span> {vehiculo.properties.cargo_capacity}</p>
-                                    <p><span className="label">Pasajeros:</span> {vehiculo.properties.passengers}</p>
-                                    <p><span className="label">Largo:</span> {vehiculo.properties.length}</p>
                                     <p><span className="label">Modelo:</span> {vehiculo.properties.model}</p>
                                     <p><span className="label">Precio:</span> {vehiculo.properties.cost_in_credits}</p>
-                                    <p><span className="label">Manofacturado por:</span>{vehiculo.properties.manufacturer}</p>
+                                    
+                                    <button className="sw-btn my-3">
+                                        Ver más
+                                    </button>
                                 </div>
                             </div>
 

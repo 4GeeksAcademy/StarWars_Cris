@@ -96,12 +96,10 @@ const Planets = () => {
                                     <h2 className="character-name">{planeta.properties.name}</h2>
 
                                     <p><span className="label">Clima:</span> {planeta.properties.climate}</p>
-                                    <p><span className="label">Superficie Agua:</span> {planeta.properties.surface_water}</p>
-                                    <p><span className="label">Diámetro:</span> {planeta.properties.diameter}</p>
-                                    <p><span className="label">Periodo de Rotación:</span> {planeta.properties.rotation_period}</p>
-                                    <p><span className="label">Periodo de Orbitación:</span> {planeta.properties.orbital_period}</p>
                                     <p><span className="label">Gravedad:</span> {planeta.properties.gravity}</p>
-                                    <a href={`${planeta.properties.url}`}>Info-API</a>
+                                    <button className="sw-btn my-3">
+                                        Ver más
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +109,7 @@ const Planets = () => {
                             <button
                                 className="sw-btn sw-btn-prev"
                                 disabled={!prevUrl || cargando}
-                                onClick={() => getVehiclesBasics(prevUrl)}
+                                onClick={() => getPlanetBasics(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
@@ -121,7 +119,7 @@ const Planets = () => {
                             <button
                                 className="sw-btn sw-btn-next"
                                 disabled={!nextUrl || cargando}
-                                onClick={() => getVehiclesBasics(nextUrl)}
+                                onClick={() => getPlanetBasics(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>

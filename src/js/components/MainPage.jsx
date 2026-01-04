@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "./AppContexts";
 import { Link } from "react-router";
+import Footer from "./Footer";
 
 const MainPage = () => {
 
@@ -41,7 +42,7 @@ const MainPage = () => {
                     </button>
                 </Link>
             </div>
-
+            <Footer />
         </>
     )
 }

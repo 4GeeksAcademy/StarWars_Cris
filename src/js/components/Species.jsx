@@ -82,7 +82,7 @@ const Species = () => {
 
     return (
         <>
-            <h1 className="sw-title">Esepcies</h1>
+            <h1 className="sw-title">Especies</h1>
             {!cargando &&
                 <Link to={"/"}>
                     <h2 className="sw-title">Volver al Inicio</h2>
@@ -107,11 +107,12 @@ const Species = () => {
                                 <div className="elemento-detalles">
                                     <h5 className="character-name">{especie.properties.name}</h5>
 
-                                    <p><span className="label">Tipo de Animal:</span> {especie.properties.classification}</p>
-                                    <p><span className="label">Designacion:</span> {especie.properties.designation}</p>
-                                    <p><span className="label">Color de ojos:</span> {especie.properties.eye_colors}</p>
                                     <p><span className="label">Lenguaje:</span> {especie.properties.language}</p>
                                     <p><span className="label">Planeta de origen:</span> {especie.homeworldName}</p>
+
+                                    <button className="sw-btn my-3">
+                                        Ver más
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +122,7 @@ const Species = () => {
                             <button
                                 className="sw-btn sw-btn-prev"
                                 disabled={!prevUrl || cargando}
-                                onClick={() => getVehiclesBasics(prevUrl)}
+                                onClick={() => getSpecieBasics(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
@@ -131,7 +132,7 @@ const Species = () => {
                             <button
                                 className="sw-btn sw-btn-next"
                                 disabled={!nextUrl || cargando}
-                                onClick={() => getVehiclesBasics(nextUrl)}
+                                onClick={() => getSpecieBasics(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>

@@ -12,6 +12,7 @@ import '../styles/index.css'
 import Home from './components/Home';
 import { AppProvider } from "./components/AppContexts";
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AppProvider>

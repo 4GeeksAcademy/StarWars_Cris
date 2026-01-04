@@ -30,51 +30,14 @@ const Characters = () => {
             const data = await res.json();
             setNextUrl(data.next)
             setPrevUrl(data.previous)
-            getCharactersDetails(data.results)
+            setPersonaje(data.results)
 
+            setCargando(false)
         } catch (error) {
             setError(true)
             console.error(error)
         }
     }
-
-    const getCharactersDetails = async (chars) => {
-        try {
-            const promises = chars.map(async (char) => {
-                const res = await fetch(char.url);
-                const data = await res.json();
-                const character = data.result;
-
-                let homeworldName = "Desconocido";
-
-                if (character.properties.homeworld) {
-                    try {
-                        const planetRes = await fetch(character.properties.homeworld);
-                        const planetData = await planetRes.json();
-                        homeworldName = planetData.result.properties.name;
-                    } catch {
-                        homeworldName = "Desconocido";
-                    }
-                }
-
-                return {
-                    ...character,
-                    homeworldName
-                };
-            });
-
-            const details = await Promise.all(promises);
-            setPersonaje(details);
-            setCargando(false);
-
-        } catch (error) {
-            console.error(error);
-            setError(true);
-            setCargando(false);
-        }
-    };
-
-
 
     useEffect(() => {
         if (personaje.length === 0) {
@@ -99,7 +62,7 @@ const Characters = () => {
                                 <div className="elemento-imagen">
                                     <img
                                         src={`https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/${char.uid}.jpg`}
-                                        alt={char.properties.name}
+                                        alt={char.name}
                                         onError={(e) => {
                                             e.target.src = imagenNoDisponible;
                                         }}
@@ -107,15 +70,13 @@ const Characters = () => {
                                 </div>
 
                                 <div className="elemento-detalles">
-                                    <h2 className="character-name">{char.properties.name}</h2>
+                                    <h2 className="character-name">{char.name}</h2>
 
-                                    <p><span className="label">Altura:</span> {char.properties.height} cm</p>
-                                    <p><span className="label">Peso:</span> {char.properties.mass} kg</p>
-                                    <p><span className="label">Género:</span> {char.properties.gender === "n/a" ? "No deberías preguntar eso..." : char.properties.gender}</p>
-                                    <p><span className="label">Color de pelo:</span> {char.properties.hair_color === "n/a" ? "No tiene un pelo de tonto" : char.properties.hair_color}</p>
-                                    <p><span className="label">Fecha de nacimiento:</span> {char.properties.birth_year}</p>
-                                    <p><span className="label">Planeta natal:</span>{char.homeworldName}</p>
-
+                                    <Link to={`/characters/details/${char.uid}`}>
+                                        <button className="sw-btn my-3">
+                                            Saber detalles
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +87,7 @@ const Characters = () => {
                             <button
                                 className="sw-btn sw-btn-prev"
                                 disabled={!prevUrl || cargando}
-                                onClick={() => getVehiclesBasics(prevUrl)}
+                                onClick={() => getCharacters(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
@@ -136,7 +97,7 @@ const Characters = () => {
                             <button
                                 className="sw-btn sw-btn-next"
                                 disabled={!nextUrl || cargando}
-                                onClick={() => getVehiclesBasics(nextUrl)}
+                                onClick={() => getCharacters(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>

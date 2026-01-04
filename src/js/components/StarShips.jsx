@@ -102,11 +102,12 @@ const StarShips = () => {
                                 <div className="elemento-detalles">
                                     <h2 className="character-name">{star.properties.name}</h2>
 
-                                    <p><span className="label">Capacidad de Carga:</span> {star.properties.cargo_capacity}</p>
-                                    <p><span className="label">Pasajeros:</span> {star.properties.passengers}</p>
                                     <p><span className="label">Velocidad atmosferica:</span> {star.properties.max_atmosphering_speed}</p>
                                     <p><span className="label">Coste:</span> {star.properties.cost_in_credits}</p>
-                                    <p><span className="label">Largo:</span> {star.properties.length}</p>
+
+                                    <button className="sw-btn my-3">
+                                        Ver más
+                                    </button>
 
                                 </div>
                             </div>
@@ -117,7 +118,7 @@ const StarShips = () => {
                             <button
                                 className="sw-btn sw-btn-prev"
                                 disabled={!prevUrl || cargando}
-                                onClick={() => getVehiclesBasics(prevUrl)}
+                                onClick={() => getStarShipsDetails(prevUrl)}
                             >
                                 ⬅️ Anterior
                             </button>
@@ -127,7 +128,7 @@ const StarShips = () => {
                             <button
                                 className="sw-btn sw-btn-next"
                                 disabled={!nextUrl || cargando}
-                                onClick={() => getVehiclesBasics(nextUrl)}
+                                onClick={() => getStarShipsDetails(nextUrl)}
                             >
                                 Siguiente ➡️
                             </button>
