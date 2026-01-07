@@ -33,18 +33,13 @@ const PlanetsDetails = () => {
         getPlanetDetails(id);
     }, [id]);
 
-    if (cargando) {
-        return <h1 className="sw-title">Cargando planeta desde muy muy lejos...</h1>;
-    }
-
-    if (error || !detailsPlanet) {
-        return <h1 className="sw-title">Error cargando el planeta</h1>;
-    }
-
     const planet = detailsPlanet.properties;
 
     return (
         <>
+            {cargando && <h1 className="sw-title">Se esta cargando el personaje</h1>}
+            {!cargando && <h1 className="sw-title"> Información de:</h1>}
+            
             <h1 className="sw-title">Información del planeta</h1>
 
             <div className="container">

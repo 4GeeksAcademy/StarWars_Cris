@@ -33,18 +33,13 @@ const VehiclesDetails = () => {
         getVehicleDetails(id);
     }, [id]);
 
-    if (cargando) {
-        return <h1 className="sw-title">Cargando vehículo desde muy muy lejos...</h1>;
-    }
-
-    if (error || !detailsVehicle) {
-        return <h1 className="sw-title">Error cargando el vehículo</h1>;
-    }
-
     const vehicle = detailsVehicle.properties;
 
     return (
         <>
+            {cargando && <h1 className="sw-title">Se esta cargando el personaje</h1>}
+            {!cargando && <h1 className="sw-title"> Información de:</h1>}
+            
             <h1 className="sw-title">Información del vehículo</h1>
 
             <div className="container">
