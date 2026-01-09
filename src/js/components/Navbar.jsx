@@ -11,7 +11,7 @@ const Navbar = () => {
                     width="100"
                     />
                 </Link>
-                <h1>Frikipedia</h1>
+                <h1>SWAPI</h1>
             </div>
         </nav>
     );

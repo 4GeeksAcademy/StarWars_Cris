@@ -45,11 +45,22 @@ const SpeciesDetails = () => {
 
     useEffect(() => {
         getSpecieDetails(id);
-    }, []);
+    }, [id]);
+
+     if (cargando) {
+        return <h1 className="sw-title">Cargando especie desde muy muy lejos...</h1>;
+    }
+
+    if (error) {
+        return <h1 className="sw-title">Error cargando la nave</h1>;
+    }
+
+    if (!detailsSpecie) {
+        return null;
+    }
 
     return (
         <>
-            {cargando && <h1 className="sw-title">Se esta cargando el personaje</h1>}
             {!cargando && <h1 className="sw-title"> Información de:</h1>}
             
             <h1 className="sw-title">Información de la especie</h1>
